@@ -10,7 +10,6 @@ Analizá la imagen y devolvé SOLO un objeto JSON válido con estos campos:
 - phone: número de teléfono con código de país si aparece (string)
 - company: nombre de la empresa u organización (string)
 - jobtitle: cargo o título profesional (string)
-- website: sitio web si aparece (string)
 
 Si un campo no está en la tarjeta, devolvé string vacío "".
 No devuelvas nada más que el JSON. Sin markdown, sin explicaciones.`

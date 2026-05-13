@@ -1,15 +1,6 @@
 import { useState } from 'react'
 import { OWNERS } from '../constants'
-
-function ModulorLogo({ size = 40 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
-      <rect width="32" height="32" rx="6" fill="#0a0a0a"/>
-      <path d="M5 6h10.5L10.25 26H5V6z" fill="white"/>
-      <path d="M16.5 6H27v20h-5.25L16.5 6z" fill="white"/>
-    </svg>
-  )
-}
+import ModulorLogo from './ModulorLogo'
 
 export default function SetupScreen({ current, onSelect, onCancel }) {
   const [selected, setSelected] = useState(current || null)
@@ -18,6 +9,7 @@ export default function SetupScreen({ current, onSelect, onCancel }) {
     <div className="flex flex-col min-h-dvh bg-white px-5">
       <div className="flex flex-col items-center pt-16 pb-10">
         <ModulorLogo size={44} />
+
         <h1 className="text-[22px] font-bold tracking-tight text-zinc-900 mt-5">
           Card Scanner
         </h1>
