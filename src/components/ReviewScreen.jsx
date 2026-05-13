@@ -97,10 +97,11 @@ export default function ReviewScreen({ extractedData, image, owner, onSubmitted,
       {/* Card thumbnail */}
       {image?.url && (
         <div className="px-5 py-3.5 border-b border-zinc-100 flex items-center gap-3 bg-zinc-50">
-          <img src={image.url} alt="Tarjeta" className="h-10 rounded-lg object-cover grayscale opacity-70" />
+          <img src={image.url} alt="Tarjeta" className="h-14 w-24 rounded-lg object-cover" />
           <span className="text-[12px] text-zinc-400 flex-1">Revisá y completá los datos</span>
-          <button type="button" onClick={onBack} className="text-[12px] text-zinc-400 hover:text-zinc-900 transition-colors">
-            ← Nueva foto
+          <button type="button" onClick={onBack} className="flex items-center gap-1 text-[13px] font-medium text-zinc-500 hover:text-zinc-900 transition-colors px-2 py-1.5">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Nueva foto
           </button>
         </div>
       )}

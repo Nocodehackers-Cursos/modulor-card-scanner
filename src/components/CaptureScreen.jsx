@@ -173,13 +173,24 @@ export default function CaptureScreen({ onImage, error }) {
 
               {cameraState === 'streaming' && (
                 <div className="flex flex-col gap-3">
-                  <video
-                    ref={videoRef}
-                    autoPlay
-                    playsInline
-                    muted
-                    className="w-full rounded-xl object-cover aspect-video bg-zinc-900"
-                  />
+                  <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-zinc-900">
+                    <video
+                      ref={videoRef}
+                      autoPlay
+                      playsInline
+                      muted
+                      className="w-full h-full object-cover"
+                    />
+                    {/* Card guide overlay */}
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="w-[78%] aspect-[1.586/1] relative">
+                        <span className="absolute top-0 left-0 w-5 h-5 border-t-2 border-l-2 border-white/70 rounded-tl" />
+                        <span className="absolute top-0 right-0 w-5 h-5 border-t-2 border-r-2 border-white/70 rounded-tr" />
+                        <span className="absolute bottom-0 left-0 w-5 h-5 border-b-2 border-l-2 border-white/70 rounded-bl" />
+                        <span className="absolute bottom-0 right-0 w-5 h-5 border-b-2 border-r-2 border-white/70 rounded-br" />
+                      </div>
+                    </div>
+                  </div>
                   <button
                     onClick={takePhoto}
                     className="w-full py-4 rounded-xl text-[15px] font-semibold bg-zinc-900 text-white hover:bg-zinc-800 transition-colors"
@@ -199,7 +210,7 @@ export default function CaptureScreen({ onImage, error }) {
                 <div className="flex flex-col gap-3">
                   <img
                     src={capturedImage.url}
-                    className="w-full rounded-xl object-cover aspect-video bg-zinc-100"
+                    className="w-full rounded-xl object-cover aspect-[4/3] bg-zinc-100"
                     alt="Vista previa"
                   />
                   <div className="flex gap-3">
