@@ -38,7 +38,7 @@ export default function SetupScreen({ current, onSelect, onCancel }) {
         })}
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-zinc-100 px-5 pb-8 pt-4 flex flex-col gap-3">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-zinc-100 px-5 pt-4 pb-[max(2rem,env(safe-area-inset-bottom))] flex flex-col gap-3">
         <button
           disabled={!selected}
           onClick={() => selected && onSelect(selected)}

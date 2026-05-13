@@ -48,7 +48,6 @@ export default function App() {
       setScreen(SCREENS.REVIEW)
     } catch (err) {
       setExtractError(err.message)
-      setScreen(SCREENS.CAPTURE)
     }
   }
 
@@ -82,7 +81,14 @@ export default function App() {
 
       <main className="flex-1 flex flex-col">
         {screen === SCREENS.CAPTURE && <CaptureScreen onImage={handleImageSelected} error={extractError} />}
-        {screen === SCREENS.PROCESSING && <ProcessingScreen image={image} />}
+        {screen === SCREENS.PROCESSING && (
+          <ProcessingScreen
+            image={image}
+            extractError={extractError}
+            onRetry={() => handleImageSelected(image)}
+            onNewPhoto={handleReset}
+          />
+        )}
         {screen === SCREENS.REVIEW && (
           <ReviewScreen extractedData={extractedData} image={image} owner={owner} onSubmitted={handleSubmitted} onBack={handleReset} />
         )}

@@ -183,16 +183,18 @@ export default function ReviewScreen({ extractedData, image, owner, onSubmitted,
           </select>
         </Field>
 
+      </div>
+
+      <div className="sticky bottom-0 bg-white border-t border-zinc-100 px-5 pt-4 pb-[max(1.5rem,env(safe-area-inset-bottom))] max-w-sm w-full mx-auto">
         {error && (
-          <div className="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-[13px] text-zinc-600">
+          <div className="rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-[13px] text-zinc-600 mb-3">
             {error}
           </div>
         )}
-
         <button
           type="submit"
           disabled={submitting}
-          className="w-full py-4 rounded-xl text-[15px] font-semibold transition-all bg-zinc-900 text-white hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed mt-2"
+          className="w-full py-4 rounded-xl text-[15px] font-semibold transition-all bg-zinc-900 text-white hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed"
         >
           {submitting ? 'Cargando…' : 'Cargar en HubSpot'}
         </button>

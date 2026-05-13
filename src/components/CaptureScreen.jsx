@@ -19,13 +19,13 @@ export default function CaptureScreen({ onImage, error }) {
   const [loading, setLoading] = useState(false)
   const [cameraState, setCameraState] = useState('idle')
   const [capturedImage, setCapturedImage] = useState(null)
+  const [previewSource, setPreviewSource] = useState('camera')
   const [cameraError, setCameraError] = useState(null)
 
   const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent)
 
   useEffect(() => () => stopStream(), [])
 
-  // Attach stream to video element once it's in the DOM
   useEffect(() => {
     if (cameraState !== 'streaming' || !streamRef.current || !videoRef.current) return
     const video = videoRef.current
@@ -69,6 +69,7 @@ export default function CaptureScreen({ onImage, error }) {
       const url = URL.createObjectURL(blob)
       const reader = new FileReader()
       reader.onload = (e) => {
+        setPreviewSource('camera')
         setCapturedImage({ url, base64: e.target.result })
         stopStream()
         setCameraState('previewing')
@@ -92,7 +93,9 @@ export default function CaptureScreen({ onImage, error }) {
     setLoading(true)
     const data = await fileToImageData(file)
     setLoading(false)
-    onImage(data)
+    setPreviewSource('gallery')
+    setCapturedImage(data)
+    setCameraState('previewing')
   }
 
   const handleDrop = (e) => {
@@ -100,6 +103,13 @@ export default function CaptureScreen({ onImage, error }) {
     setDragging(false)
     handleFile(e.dataTransfer.files?.[0])
   }
+
+  const Spinner = ({ label }) => (
+    <div className="flex flex-col items-center justify-center gap-3 py-16">
+      <div className="w-8 h-8 rounded-full border-2 border-zinc-200 border-t-zinc-500 animate-spin" />
+      <p className="text-[13px] text-zinc-400">{label}</p>
+    </div>
+  )
 
   return (
     <div className="flex flex-col flex-1 px-5 py-8 gap-6 max-w-sm w-full mx-auto">
@@ -124,11 +134,10 @@ export default function CaptureScreen({ onImage, error }) {
 
           {isMobile ? (
             <>
-              {cameraState === 'idle' && (
+              {cameraState === 'idle' && !loading && (
                 <div className="flex flex-col gap-3">
                   <button
                     onClick={openCamera}
-                    disabled={loading}
                     className="w-full flex items-center justify-between px-5 py-5 rounded-xl border border-zinc-100 bg-zinc-50 hover:bg-white hover:border-zinc-200 transition-all text-left group"
                   >
                     <div>
@@ -143,7 +152,6 @@ export default function CaptureScreen({ onImage, error }) {
 
                   <button
                     onClick={() => galleryRef.current?.click()}
-                    disabled={loading}
                     className="w-full flex items-center justify-between px-5 py-5 rounded-xl border border-zinc-100 bg-zinc-50 hover:bg-white hover:border-zinc-200 transition-all text-left group"
                   >
                     <div>
@@ -159,12 +167,9 @@ export default function CaptureScreen({ onImage, error }) {
                 </div>
               )}
 
-              {cameraState === 'opening' && (
-                <div className="flex flex-col items-center justify-center gap-3 py-16">
-                  <div className="w-8 h-8 rounded-full border-2 border-zinc-200 border-t-zinc-500 animate-spin" />
-                  <p className="text-[13px] text-zinc-400">Abriendo cámara…</p>
-                </div>
-              )}
+              {cameraState === 'idle' && loading && <Spinner label="Cargando imagen…" />}
+
+              {cameraState === 'opening' && <Spinner label="Abriendo cámara…" />}
 
               {cameraState === 'streaming' && (
                 <div className="flex flex-col gap-3">
@@ -199,10 +204,10 @@ export default function CaptureScreen({ onImage, error }) {
                   />
                   <div className="flex gap-3">
                     <button
-                      onClick={retake}
+                      onClick={previewSource === 'gallery' ? () => galleryRef.current?.click() : retake}
                       className="flex-1 py-4 rounded-xl text-[15px] font-semibold border border-zinc-100 bg-zinc-50 text-zinc-700 hover:bg-white hover:border-zinc-200 transition-all"
                     >
-                      Repetir
+                      {previewSource === 'gallery' ? 'Cambiar foto' : 'Repetir'}
                     </button>
                     <button
                       onClick={() => onImage(capturedImage)}
@@ -272,7 +277,7 @@ export default function CaptureScreen({ onImage, error }) {
           )}
         </div>
 
-        {(cameraState === 'idle' || !isMobile) && (
+        {(cameraState === 'idle' || !isMobile) && !loading && (
           <p className="text-[11px] text-zinc-300 text-center">
             JPG · PNG · HEIC · WEBP
           </p>
