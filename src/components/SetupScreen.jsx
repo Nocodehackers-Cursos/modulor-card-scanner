@@ -26,7 +26,7 @@ export default function SetupScreen({ current, onSelect, onCancel }) {
         </p>
       </div>
 
-      <div className="flex flex-col gap-2 flex-1 max-w-sm w-full mx-auto">
+      <div className="flex flex-col gap-2 flex-1 max-w-sm w-full mx-auto pb-36">
         {OWNERS.map((name) => {
           const active = selected === name
           return (
@@ -46,7 +46,7 @@ export default function SetupScreen({ current, onSelect, onCancel }) {
         })}
       </div>
 
-      <div className="max-w-sm w-full mx-auto pb-8 pt-6 flex flex-col gap-3">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-zinc-100 px-5 pb-8 pt-4 flex flex-col gap-3">
         <button
           disabled={!selected}
           onClick={() => selected && onSelect(selected)}
