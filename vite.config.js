@@ -12,7 +12,13 @@ export default defineConfig({
       includeAssets: ['icon-192.png', 'icon-512.png', 'apple-touch-icon.png'],
       manifest: false,
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        globPatterns: ['**/*.{js,css,html,ico,svg}'],
+        runtimeCaching: [
+          {
+            urlPattern: /\.png$/,
+            handler: 'NetworkFirst',
+          },
+        ],
       },
     }),
   ],
